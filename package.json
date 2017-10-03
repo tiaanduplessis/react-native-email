@@ -1,0 +1,32 @@
+{
+    "name": "react-native-email",
+    "version": "1.0.0",
+    "description": "Send a email using the Linking API",
+    "license": "MIT",
+    "repository": {
+        "url": "https://github.com/tiaanduplessis/react-native-email",
+        "type": "git"
+    },
+    "homepage": "https://github.com/tiaanduplessis/react-native-email",
+    "bugs": "https://github.com/tiaanduplessis/react-native-email",
+    "main": "index.js",
+    "module": "index.js",
+    "files": [
+        "index.js"
+    ],
+    "scripts": {
+        "test": "echo 'no tests'",
+        "format": "prettier-standard index.js",
+        "start": "npm run test",
+        "precommit": "npm test",
+        "pretest": "npm run format"
+    },
+    "author": "tiaanduplessis <tiaanduplessis@hotmail.com>",
+    "devDependencies": {
+        "husky": "^0.14.3",
+        "prettier-standard": "^6.0.0"
+    },
+    "dependencies": {
+        "qs": "^6.5.1"
+    }
+}
