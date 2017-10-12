@@ -55,6 +55,8 @@
 
 ## Install
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/tiaanduplessis/react-native-email.svg)](https://greenkeeper.io/)
+
 ```sh
 $ npm install react-native-email
 # OR
