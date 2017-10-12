@@ -26,6 +26,9 @@
   <a href="http://makeapullrequest.com">
     <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square" alt="make a pull request" />
   </a>
+   <a href="https://greenkeeper.io/">
+    <img src="https://badges.greenkeeper.io/tiaanduplessis/react-native-email.svg" alt="Greenkeeper" />
+  </a>
 </div>
 <br>
 <div align="center">
@@ -54,8 +57,6 @@
 </details>
 
 ## Install
-
-[![Greenkeeper badge](https://badges.greenkeeper.io/tiaanduplessis/react-native-email.svg)](https://greenkeeper.io/)
 
 ```sh
 $ npm install react-native-email
