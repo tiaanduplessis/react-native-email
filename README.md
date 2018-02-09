@@ -1,7 +1,7 @@
 
 <h1 align="center">react-native-email</h1>
 <div align="center">
-  <strong>Send a email using the Linking API</strong>
+  <strong>📮 Send a email using the Linking API</strong>
 </div>
 <br>
 <div align="center">
@@ -107,6 +107,8 @@ This results to:
 <div align="center">
   <img width="70%" src="result.jpeg" alt=""/>
 </div>
+
+Note: If you are using the iOS Simulator the linking cannot be completed because the Email app is not found in the Simulator. 
 
 ## Contributing
 
