@@ -11,6 +11,7 @@
     "bugs": "https://github.com/tiaanduplessis/react-native-email",
     "main": "index.js",
     "module": "index.js",
+    "types": "react-native-email.d.ts",
     "files": [
         "index.js"
     ],
