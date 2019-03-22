@@ -28,6 +28,6 @@
         "prettier-standard": "^8.0.0"
     },
     "dependencies": {
-        "qs": "^6.5.1"
+        "qs": "^6.7.0"
     }
 }
