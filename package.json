@@ -25,7 +25,7 @@
     "author": "tiaanduplessis <tiaanduplessis@hotmail.com>",
     "devDependencies": {
         "husky": "2.0.0",
-        "prettier-standard": "8.0.1"
+        "prettier-standard": "15.0.1"
     },
     "dependencies": {
         "qs": "^6.5.1"
