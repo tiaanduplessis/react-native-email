@@ -638,7 +638,7 @@ hosted-git-info@^2.1.4:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.5.0.tgz#6d60e34b3abbc8313062c3b798ef8d901a07af3c"
 
-husky@^2.0.0:
+husky@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/husky/-/husky-2.0.0.tgz#fdc232f6e44af8257d86602c34105673ce532c79"
   integrity sha512-YvSQ5UQHNfqm+g+P1sFTkPI23nEe0gbKXdv5ZTRStYSVdAYyH1iypFilAMVqXLXnjGtb6lBuR/2Sf5FkwCNY2Q==
@@ -1107,9 +1107,10 @@ prettier-eslint@^8.1.1:
     typescript-eslint-parser "^16.0.0"
     vue-eslint-parser "^2.0.2"
 
-prettier-standard@^8.0.0:
+prettier-standard@8.0.1:
   version "8.0.1"
   resolved "https://registry.yarnpkg.com/prettier-standard/-/prettier-standard-8.0.1.tgz#3658ddc33d46a3ace950d5454654ae47cd6ca026"
+  integrity sha512-egiIKvmlizoXuRkh83myjB4elmdIahCaUACLDaZyCgvspZQyps0fUayQpvcv4/gW/XahMTu95a3f9Fu8ouGYZw==
   dependencies:
     "@sheerun/eslint-config-standard" "^10.2.1"
     babel-eslint ">=7.2.3"
