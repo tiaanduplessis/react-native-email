@@ -13,7 +13,8 @@
     "module": "index.js",
     "types": "react-native-email.d.ts",
     "files": [
-        "index.js"
+        "index.js",
+        "react-native-email.d.ts"
     ],
     "scripts": {
         "test": "echo 'no tests'",
