@@ -25,10 +25,10 @@
     },
     "author": "tiaanduplessis <tiaanduplessis@hotmail.com>",
     "devDependencies": {
-        "husky": "2.0.0",
-        "prettier-standard": "15.0.1"
+        "husky": "4.2.5",
+        "prettier-standard": "16.3.0"
     },
     "dependencies": {
-        "qs": "^6.5.1"
+        "qs": "6.9.4"
     }
 }
