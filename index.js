@@ -23,13 +23,11 @@ async function sendEmail (to, { cc, bcc, subject, body } = {}) {
     }
   }
 
-  const supported = await Linking.canOpenURL(url)
+  return Linking.openURL(url).catch(() => handleError());
+}
 
-  if (!supported) {
-    return Promise.reject(new Error('Provided URL can not be handled'))
-  }
-
-  return Linking.openURL(url)
+function handleError() {
+  return Promise.reject(new Error('Provided URL can not be handled'));
 }
 
 export default sendEmail
