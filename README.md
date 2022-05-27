@@ -1,67 +1,36 @@
 
-<h1 align="center">react-native-email</h1>
-<div align="center">
-  <strong>📮 Send a email using the Linking API</strong>
-</div>
-<br>
-<div align="center">
-  <a href="https://npmjs.org/package/react-native-email">
-    <img src="https://img.shields.io/npm/v/react-native-email.svg?style=flat-square" alt="npm package version" />
-  </a>
-  <a href="https://npmjs.org/package/react-native-email">
-  <img src="https://img.shields.io/npm/dm/react-native-email.svg?style=flat-square" alt="npm downloads" />
-  </a>
-  <a href="https://github.com/feross/standard">
-    <img src="https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat-square" alt="standard JS linter" />
-  </a>
-  <a href="https://github.com/prettier/prettier">
-    <img src="https://img.shields.io/badge/styled_with-prettier-ff69b4.svg?style=flat-square" alt="prettier code formatting" />
-  </a>
-  <a href="https://travis-ci.org/tiaanduplessis/react-native-email">
-    <img src="https://img.shields.io/travis/tiaanduplessis/react-native-email.svg?style=flat-square" alt="travis ci build status" />
-  </a>
-  <a href="https://github.com/tiaanduplessis/react-native-email/blob/master/LICENSE">
-    <img src="https://img.shields.io/npm/l/react-native-email.svg?style=flat-square" alt="project license" />
-  </a>
-  <a href="http://makeapullrequest.com">
-    <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square" alt="make a pull request" />
-  </a>
-   <a href="https://greenkeeper.io/">
-    <img src="https://badges.greenkeeper.io/tiaanduplessis/react-native-email.svg" alt="Greenkeeper" />
-  </a>
-</div>
-<br>
-<div align="center">
-  <a href="https://github.com/tiaanduplessis/react-native-email/watchers">
-    <img src="https://img.shields.io/github/watchers/tiaanduplessis/react-native-email.svg?style=social" alt="Github Watch Badge" />
-  </a>
-  <a href="https://github.com/tiaanduplessis/react-native-email/stargazers">
-    <img src="https://img.shields.io/github/stars/tiaanduplessis/react-native-email.svg?style=social" alt="Github Star Badge" />
-  </a>
-  <a href="https://twitter.com/intent/tweet?text=Check%20out%20react-native-email!%20https://github.com/tiaanduplessis/react-native-email%20%F0%9F%91%8D">
-    <img src="https://img.shields.io/twitter/url/https/github.com/tiaanduplessis/react-native-email.svg?style=social" alt="Tweet" />
-  </a>
-</div>
-<br>
-<div align="center">
-  Built with ❤︎ by <a href="https://github.com/tiaanduplessis">tiaanduplessis</a> and <a href="https://github.com/tiaanduplessis/react-native-email/contributors">contributors</a>
-</div>
+# 📮 react-native-email
+[![package version](https://img.shields.io/npm/v/react-native-email.svg?style=flat-square)](https://npmjs.org/package/react-native-email)
+[![package downloads](https://img.shields.io/npm/dm/react-native-email.svg?style=flat-square)](https://npmjs.org/package/react-native-email)
+[![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
+[![package license](https://img.shields.io/npm/l/react-native-email.svg?style=flat-square)](https://npmjs.org/package/react-native-email)
+[![make a pull request](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-<h2>Table of Contents</h2>
-<details>
-  <summary>Table of Contents</summary>
-  <li><a href="#install">Install</a></li>
-  <li><a href="#usage">Usage</a></li>
-  <li><a href="#contribute">Contribute</a></li>
-  <li><a href="#license">License</a></li>
-</details>
+Send a email using the Linking API
+
+## Table of Contents
+
+- [📮 react-native-email](#-react-native-email)
+  - [Table of Contents](#table-of-contents)
+  - [Install](#install)
+  - [Usage](#usage)
+    - [Running on iOS simulator](#running-on-ios-simulator)
+  - [API](#api)
+  - [Contributing](#contributing)
+  - [License](#license)
 
 ## Install
 
+Install the package locally within you project folder with your package manager:
+
+With `npm`:
 ```sh
-$ npm install react-native-email
-# OR
-$ yarn add react-native-email
+npm install react-native-email
+```
+
+With `yarn`:
+```sh
+yarn add react-native-email
 ```
 
 ## Usage
@@ -108,20 +77,19 @@ This results to:
   <img width="70%" src="result.jpeg" alt=""/>
 </div>
 
-Note: If you are using the iOS Simulator the linking cannot be completed because the Email app is not found in the Simulator. 
+### Running on iOS simulator
+
+When running on the iOS simulator, you will get a `the URL is invalid` error. This will work on an actual device. **The iOS simulator does not have access to the dialer app.**.
+
+
+## API
+
+For all configuration options, please see the [API docs](https://paka.dev/npm/react-native-email).
 
 ## Contributing
 
-Contributions are welcome!
-
-1. Fork it.
-2. Create your feature branch: `git checkout -b my-new-feature`
-3. Commit your changes: `git commit -am 'Add some feature'`
-4. Push to the branch: `git push origin my-new-feature`
-5. Submit a pull request :D
-
-Or open up [a issue](https://github.com/tiaanduplessis/react-native-email/issues).
+Got an idea for a new feature? Found a bug? Contributions are welcome! Please [open up an issue](https://github.com/tiaanduplessis/react-native-email/issues) or [make a pull request](https://makeapullrequest.com/).
 
 ## License
 
-Licensed under the MIT License.
+[MIT © Tiaan du Plessis](./LICENSE)

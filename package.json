@@ -17,18 +17,13 @@
         "react-native-email.d.ts"
     ],
     "scripts": {
-        "test": "echo 'no tests'",
-        "format": "prettier-standard index.js",
-        "start": "npm run test",
-        "precommit": "npm test",
-        "pretest": "npm run format"
+        "lint": "standard --fix index.js"
     },
     "author": "tiaanduplessis <tiaanduplessis@hotmail.com>",
-    "devDependencies": {
-        "husky": "4.2.5",
-        "prettier-standard": "16.3.0"
-    },
     "dependencies": {
-        "qs": "6.9.4"
+        "qs": "6.10.3"
+    },
+    "devDependencies": {
+        "standard": "^17.0.0"
     }
 }
