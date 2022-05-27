@@ -4,6 +4,7 @@ export type SendEmailOptions = {
     bcc?: string | string[];
     subject?: string;
     body?: string;
+    checkCanOpen?: boolean;
 };
 
 declare async function sendEmail(to: string[] | string, options?: SendEmailOptions): Promise<any>;

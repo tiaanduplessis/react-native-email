@@ -1,7 +1,7 @@
 import { Linking } from 'react-native'
 import qs from 'qs'
 
-async function sendEmail (to, { cc, bcc, subject, body } = {}) {
+async function sendEmail (to, { cc, bcc, subject, body, checkCanOpen = true } = {}) {
   let url = 'mailto:'
 
   if (to) {
@@ -23,10 +23,11 @@ async function sendEmail (to, { cc, bcc, subject, body } = {}) {
     }
   }
 
-  const supported = await Linking.canOpenURL(url)
-
-  if (!supported) {
-    return Promise.reject(new Error('Provided URL can not be handled'))
+  if (checkCanOpen) {
+    const supported = await Linking.canOpenURL(url)
+    if (!supported) {
+      return Promise.reject(new Error('Provided URL can not be handled'))
+    }
   }
 
   return Linking.openURL(url)
