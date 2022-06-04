@@ -15,6 +15,7 @@ Send a email using the Linking API
   - [Install](#install)
   - [Usage](#usage)
     - [Running on iOS simulator](#running-on-ios-simulator)
+    - [Running on Android SDK 30+](#running-on-android-sdk-30)
   - [API](#api)
   - [Contributing](#contributing)
   - [License](#license)
@@ -57,6 +58,7 @@ export default class App extends React.Component {
             bcc: 'mee@mee.com', // string or array of email addresses
             subject: 'Show how to use',
             body: 'Some body right here'
+            checkCanOpen: false // Call Linking.canOpenURL prior to Linking.openURL
         }).catch(console.error)
     }
 }
@@ -81,6 +83,19 @@ This results to:
 
 When running on the iOS simulator, you will get a `the URL is invalid` error. This will work on an actual device. **The iOS simulator does not have access to the dialer app.**.
 
+### Running on Android SDK 30+
+
+You will encounter a `Provided URL can not be handled` error when attempting to use the function with the `checkCanOpen` flag enabled.
+
+Android SDK 30 introduced changes around how apps can query and interact with other apps. This means `Linking.canOpenURL` returns false for all links unless a `<queries>` element is added to `AndroidManifest.xml`. Adding the following intent to `android/app/src/main/AndroidManifest.xml` should resolve the issue:
+
+```groovy
+<queries>
+      <intent>
+        <action android:name="android.intent.action.DIAL" />
+      </intent>
+</queries>
+```
 
 ## API
 
