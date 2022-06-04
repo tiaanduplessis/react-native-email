@@ -1,6 +1,6 @@
 {
     "name": "react-native-email",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "description": "Send a email using the Linking API",
     "license": "MIT",
     "repository": {
