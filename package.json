@@ -17,13 +17,15 @@
         "react-native-email.d.ts"
     ],
     "scripts": {
-        "lint": "standard --fix index.js"
+        "lint": "standard index.js \"test/**/*.cjs\"",
+        "test": "node --experimental-vm-modules --test test/*.test.cjs"
     },
     "author": "tiaanduplessis <tiaanduplessis@hotmail.com>",
     "dependencies": {
         "qs": "6.10.3"
     },
     "devDependencies": {
-        "standard": "^17.0.0"
+        "standard": "^17.0.0",
+        "espree": "9.3.2"
     }
 }
