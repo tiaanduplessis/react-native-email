@@ -14,6 +14,7 @@ Send a email using the Linking API
   - [Table of Contents](#table-of-contents)
   - [Install](#install)
   - [Usage](#usage)
+    - [Line breaks in the body](#line-breaks-in-the-body)
     - [Running on iOS simulator](#running-on-ios-simulator)
     - [Running on Android SDK 30+](#running-on-android-sdk-30)
   - [API](#api)
@@ -54,11 +55,11 @@ export default class App extends React.Component {
     }
 
     handleEmail = () => {
-        const to = ['tiaan@email.com', 'foo@bar.com'] // string or array of email addresses
+        const to = ['first@example.com', 'second@example.com'] // string or array of email addresses
         email(to, {
             // Optional additional arguments
-            cc: ['bazzy@moo.com', 'doooo@daaa.com'], // string or array of email addresses
-            bcc: 'mee@mee.com', // string or array of email addresses
+            cc: ['copy@example.com', 'another-copy@example.com'], // string or array of email addresses
+            bcc: 'hidden@example.com', // string or array of email addresses
             subject: 'Show how to use',
             body: 'Some body right here',
             checkCanOpen: true // Check for a mail app before opening (default: true)
@@ -81,6 +82,23 @@ This results to:
 <div align="center">
   <img width="70%" src="result.jpeg" alt=""/>
 </div>
+
+### Line breaks in the body
+
+Pass a plain-text `body` with `\r\n` (CRLF) between lines. Use `\r\n\r\n` for a blank line:
+
+```js
+email('recipient@example.com', {
+    subject: 'Multiple lines',
+    body: 'First line\r\nSecond line\r\n\r\nLast paragraph'
+}).catch(console.error)
+```
+
+These JavaScript escape sequences create actual line breaks in the string. The library preserves the supplied line endings and URL-encodes the body; it does not convert `\n` to `\r\n`. CRLF produces `%0D%0A`, the line-break encoding required by [RFC 6068](https://www.rfc-editor.org/rfc/rfc6068#section-5).
+
+Pass the original text, not a pre-encoded value such as `%0D%0A` or `encodeURIComponent(body)`, because the library would encode it again. Literal backslash characters (for example, `'First\\nSecond'`) and HTML `<br>` tags are plain text, not line-break instructions.
+
+The installed mail app renders the body. Test with the mail apps and OS versions your app supports; this library cannot correct a mail app's formatting behavior.
 
 ### Running on iOS simulator
 
