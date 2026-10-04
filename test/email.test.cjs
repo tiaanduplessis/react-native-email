@@ -30,6 +30,56 @@ test('encodes recipient arrays and all mail fields in the same URL', async () =>
   assert.deepEqual(calls, [['canOpenURL', url], ['openURL', url]])
 })
 
+const bodyExamples = [
+  {
+    name: 'CRLF, blank lines, and leading and trailing line breaks',
+    body: '\r\nFirst\r\n\r\nLast\r\n',
+    encoded: '%0D%0AFirst%0D%0A%0D%0ALast%0D%0A'
+  },
+  {
+    name: 'Unicode and reserved characters with CRLF',
+    body: 'café ☕\r\n雪 & 50% + #?',
+    encoded: 'caf%C3%A9%20%E2%98%95%0D%0A%E9%9B%AA%20%26%2050%25%20%2B%20%23%3F'
+  },
+  {
+    name: 'LF and mixed line endings without normalization',
+    body: 'First\nSecond\r\nThird\rLast',
+    encoded: 'First%0ASecond%0D%0AThird%0DLast'
+  },
+  {
+    name: 'literal backslash-n as text',
+    body: 'First\\nSecond',
+    encoded: 'First%5CnSecond'
+  },
+  {
+    name: 'pre-encoded line breaks as text',
+    body: 'First%0D%0ASecond',
+    encoded: 'First%250D%250ASecond'
+  },
+  {
+    name: 'HTML break tags as text',
+    body: 'First<br>Second',
+    encoded: 'First%3Cbr%3ESecond'
+  }
+]
+
+for (const { name, body, encoded } of bodyExamples) {
+  test(`encodes ${name} with and without the availability check`, async () => {
+    for (const checkCanOpen of [true, false]) {
+      const { calls, linking } = createLinking()
+      const email = await loadEmail(linking)
+      const url = `mailto:recipient%40example.com?body=${encoded}`
+
+      await email('recipient@example.com', { body, checkCanOpen })
+
+      const expected = checkCanOpen
+        ? [['canOpenURL', url], ['openURL', url]]
+        : [['openURL', url]]
+      assert.deepEqual(calls, expected)
+    }
+  })
+}
+
 test('accepts string cc and bcc and omits unspecified mail fields', async () => {
   const { calls, linking } = createLinking()
   const email = await loadEmail(linking)

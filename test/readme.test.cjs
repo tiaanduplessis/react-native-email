@@ -34,12 +34,12 @@ function usageHandler () {
   return code.slice(...handler.value.range)
 }
 
-async function runUsageExample (linking) {
+async function runUsageExample (linking, code = `(${usageHandler()})()`) {
   const sendEmail = await loadEmail(linking)
   const errors = []
   const invocations = []
   const pending = []
-  const handler = vm.runInNewContext(`(${usageHandler()})`, {
+  vm.runInNewContext(code, {
     email (to, options) {
       invocations.push(JSON.parse(JSON.stringify({ to, options })))
       const result = sendEmail(to, options)
@@ -48,7 +48,6 @@ async function runUsageExample (linking) {
     },
     console: { error: error => errors.push(error) }
   })
-  handler()
   await Promise.allSettled(pending)
   return { errors, invocations }
 }
@@ -94,15 +93,15 @@ function manifestTree (xml) {
 test('README JSX example parses and launches its documented message', async () => {
   const { calls, linking } = createLinking()
   const { errors, invocations } = await runUsageExample(linking)
-  const url = 'mailto:tiaan%40email.com%2Cfoo%40bar.com' +
-    '?cc=bazzy%40moo.com%2Cdoooo%40daaa.com&bcc=mee%40mee.com' +
+  const url = 'mailto:first%40example.com%2Csecond%40example.com' +
+    '?cc=copy%40example.com%2Canother-copy%40example.com&bcc=hidden%40example.com' +
     '&subject=Show%20how%20to%20use&body=Some%20body%20right%20here'
 
   assert.deepEqual(invocations, [{
-    to: ['tiaan@email.com', 'foo@bar.com'],
+    to: ['first@example.com', 'second@example.com'],
     options: {
-      cc: ['bazzy@moo.com', 'doooo@daaa.com'],
-      bcc: 'mee@mee.com',
+      cc: ['copy@example.com', 'another-copy@example.com'],
+      bcc: 'hidden@example.com',
       subject: 'Show how to use',
       body: 'Some body right here',
       checkCanOpen: true
@@ -120,6 +119,34 @@ test('README JSX example handles rejection when no mail app is available', async
   assert.equal(calls[0][0], 'canOpenURL')
   assert.equal(errors.length, 1)
   assert.equal(errors[0].message, 'Provided URL can not be handled')
+})
+
+test('README line-break example encodes CRLF and a blank line', async () => {
+  const { calls, linking } = createLinking()
+  const code = codeExample('### Line breaks in the body', 'js')
+  espree.parse(code, { ecmaVersion: 'latest' })
+  const { errors, invocations } = await runUsageExample(linking, code)
+  const url = 'mailto:recipient%40example.com?subject=Multiple%20lines' +
+    '&body=First%20line%0D%0ASecond%20line%0D%0A%0D%0ALast%20paragraph'
+
+  assert.deepEqual(invocations, [{
+    to: 'recipient@example.com',
+    options: {
+      subject: 'Multiple lines',
+      body: 'First line\r\nSecond line\r\n\r\nLast paragraph'
+    }
+  }])
+  assert.deepEqual(calls, [['canOpenURL', url], ['openURL', url]])
+  assert.deepEqual(errors, [])
+})
+
+test('README line-break example handles an opening failure', async () => {
+  const openError = new Error('Mail app could not be opened')
+  const { calls, linking } = createLinking({ openError })
+  const { errors } = await runUsageExample(linking, codeExample('### Line breaks in the body', 'js'))
+
+  assert.deepEqual(calls.map(([method]) => method), ['canOpenURL', 'openURL'])
+  assert.deepEqual(errors, [openError])
 })
 
 test('README Android query matches VIEW and mailto in one manifest-level intent', () => {
