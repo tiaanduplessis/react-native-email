@@ -160,3 +160,46 @@ test('README Android query matches VIEW and mailto in one manifest-level intent'
     node.children.some(child => child.name === 'data' && child.attributes['android:scheme'] === 'mailto'))
   assert.ok(mailIntent, 'one intent declares both ACTION_VIEW and the mailto scheme')
 })
+
+test('README API table matches the shipped option types and defaults', () => {
+  const declaration = readFileSync(path.join(root, 'react-native-email.d.ts'), 'utf8')
+  const options = [...declaration.matchAll(/^\s+(\w+)\?: ([^;]+);$/gm)]
+  const rows = [...readme.matchAll(/^\| `options\.(\w+)` \| ([^|]+) \| ([^|]+) \|/gm)]
+
+  assert.equal(rows.length, options.length)
+  for (const [, name, type] of options) {
+    const row = rows.find(([, field]) => field === name)
+    assert.ok(row, `README documents ${name}`)
+    assert.equal(row[2].trim(), type.split(' | ').map(value => '`' + value + '`').join(' or '))
+    assert.equal(row[3].trim(), name === 'checkCanOpen' ? '`true`' : '`undefined` (omitted)')
+  }
+  assert.match(readme, /`email\(to, options\?\)`, returning `Promise<any>`/)
+  assert.match(readme, /\| `to` \| `string` or `string\[\]` \| Required by the TypeScript declaration \|/)
+  assert.match(readme, /\| `options` \| `SendEmailOptions` \| `\{\}` \|/)
+  assert.match(readme, /does not confirm that the user sent the email or that it was delivered/)
+  assert.doesNotMatch(readme, /paka\.dev/)
+})
+
+test('README empty-recipient caveat matches the released URL behavior', async () => {
+  assert.match(readme, /omitting `to` at runtime or passing an empty string opens a bare `mailto:` URL/)
+  for (const to of [undefined, '']) {
+    const { calls, linking } = createLinking()
+    const email = await loadEmail(linking)
+    await email(to, { cc: 'copy@example.com', bcc: 'hidden@example.com', subject: 'Subject', body: 'Body' })
+    assert.deepEqual(calls, [['canOpenURL', 'mailto:'], ['openURL', 'mailto:']])
+  }
+})
+
+test('README attachment limit and plain-text body match URL construction', async () => {
+  assert.match(readme, /Attachments are not supported/)
+  assert.match(readme, /separate native mail composer or platform sharing integration with attachment support/)
+  const { calls, linking } = createLinking()
+  const email = await loadEmail(linking)
+  await email('recipient@example.com', {
+    body: '<img src="https://example.com/photo.jpg">',
+    attachment: 'file:///photo.jpg',
+    attachments: ['file:///photo.jpg']
+  })
+  const url = 'mailto:recipient%40example.com?body=%3Cimg%20src%3D%22https%3A%2F%2Fexample.com%2Fphoto.jpg%22%3E'
+  assert.deepEqual(calls, [['canOpenURL', url], ['openURL', url]])
+})
