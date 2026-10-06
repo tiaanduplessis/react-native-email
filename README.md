@@ -6,7 +6,7 @@
 [![package license](https://img.shields.io/npm/l/react-native-email.svg?style=flat-square)](https://npmjs.org/package/react-native-email)
 [![make a pull request](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 
-Send a email using the Linking API
+Open a prefilled, plain-text email in an installed mail app using React Native's Linking API.
 
 ## Table of Contents
 
@@ -18,6 +18,8 @@ Send a email using the Linking API
     - [Running on iOS simulator](#running-on-ios-simulator)
     - [Running on Android SDK 30+](#running-on-android-sdk-30)
   - [API](#api)
+    - [Return value and errors](#return-value-and-errors)
+    - [Attachments and formatting](#attachments-and-formatting)
   - [Contributing](#contributing)
     - [Development checks](#development-checks)
   - [License](#license)
@@ -130,7 +132,36 @@ Setting `checkCanOpen: false` skips the visibility check and attempts `Linking.o
 
 ## API
 
-For all configuration options, please see the [API docs](https://paka.dev/npm/react-native-email).
+The default export is `email(to, options?)`, returning `Promise<any>`. The API below describes the `2.1.0` release pinned in the [install instructions](#install).
+
+| Argument | Type | Default | Description |
+| --- | --- | --- | --- |
+| `to` | `string` or `string[]` | Required by the TypeScript declaration | Recipient address or array of addresses |
+| `options` | `SendEmailOptions` | `{}` | Optional object containing the fields below |
+| `options.cc` | `string` or `string[]` | `undefined` (omitted) | Copy recipient address or array of addresses |
+| `options.bcc` | `string` or `string[]` | `undefined` (omitted) | Blind-copy recipient address or array of addresses |
+| `options.subject` | `string` | `undefined` (omitted) | Email subject |
+| `options.body` | `string` | `undefined` (omitted) | Plain-text email body; see [line breaks](#line-breaks-in-the-body) |
+| `options.checkCanOpen` | `boolean` | `true` | Check `Linking.canOpenURL` before calling `Linking.openURL`; `false` skips only the check |
+
+Recipient arrays are joined with commas. Pass original, unencoded addresses and text; the library URL-encodes them when building the `mailto:` URL. It does not validate email addresses.
+
+Supply at least one recipient when using the mail fields. In `2.1.0`, omitting `to` at runtime or passing an empty string opens a bare `mailto:` URL and ignores `cc`, `bcc`, `subject`, and `body`.
+
+### Return value and errors
+
+The returned promise follows `Linking.openURL`. A resolved promise only indicates that the URL was opened; it does not confirm that the user sent the email or that it was delivered. The user reviews and sends the message in their mail app.
+
+- With `checkCanOpen: true`, a `false` result from `Linking.canOpenURL` rejects with `Error('Provided URL can not be handled')` without attempting to open the URL.
+- Errors from `Linking.canOpenURL` or `Linking.openURL` are passed through as promise rejections. Setting `checkCanOpen: false` does not prevent opening failures.
+
+Handle rejections with `.catch(...)` as in the [usage example](#usage), or use `try`/`catch` around `await email(...)`. See the [Android setup](#running-on-android-sdk-30) and [iOS simulator guidance](#running-on-ios-simulator) if a mail app cannot be found.
+
+### Attachments and formatting
+
+Attachments are not supported. There is no attachment option for images or other files. Putting a file path, image URL, or HTML in `body` only supplies text to the mail app; it does not attach a file or create an HTML email.
+
+This package builds a plain-text `mailto:` URL and opens it through `Linking`. Sending files requires a separate native mail composer or platform sharing integration with attachment support. The available mail apps determine how the supplied text is displayed.
 
 ## Contributing
 
